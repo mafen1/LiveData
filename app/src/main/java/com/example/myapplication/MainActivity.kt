@@ -1,13 +1,18 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
+
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.myapplication.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val viewModel: ViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
@@ -19,8 +24,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
         initObserves()
+        binding.btnNumberFive.setOnClickListener(this)
+        binding.btnNumberTwo.setOnClickListener(this)
+        binding.btnPlus.setOnClickListener(this)
+        binding.btnEquals.setOnClickListener(this)
     }
 
     private fun updateText(text: String) {
@@ -33,14 +41,14 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "${viewModel.userString}")
         }
     }
-
-    private fun initView() {
-        binding.btnNumberTwo.setOnClickListener {
-            viewModel.updateText("2")
-
-        }
-        binding.textView.addTextChangedListener {
-            viewModel.updateText(it.toString())
+    override fun onClick(view: View?) {
+        // стало
+        when (view!!.id) {
+            R.id.btnNumberTwo -> viewModel.updateText("2")
+            R.id.btnNumberFive ->  viewModel.updateText("5")
+            R.id.btnPlus -> viewModel.updateText("+")
+            R.id.btnEquals -> binding.editTextTextPersonName.setText("${viewModel.pop().toString()}")
         }
     }
+
 }
