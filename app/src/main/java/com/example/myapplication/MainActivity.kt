@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnNumberTwo.setOnClickListener(this)
         binding.btnPlus.setOnClickListener(this)
         binding.btnEquals.setOnClickListener(this)
+        binding.btnMinus.setOnClickListener(this)
 
     }
 
@@ -50,10 +51,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view!!.id) {
             R.id.btnNumberTwo -> viewModel.updateText("2")
             R.id.btnNumberFive -> viewModel.updateText("5")
-            R.id.btnPlus -> viewModel.updateText("+")
+            R.id.btnPlus ->{
+                viewModel.choseOperations("+")
+                viewModel.updateText("+")
+            }
+            R.id.btnMinus -> {
+                viewModel.choseOperations("-")
+                viewModel.updateText("-")
+            }
             R.id.btnEquals -> {
-                viewModel.plus(binding.editTextTextPersonName.text.toString())
-                binding.editTextTextPersonName.text = viewModel.finalResult.toString().toEditable()
+                viewModel.operations(binding.editTextTextPersonName.text.toString())
+                binding.tvResult.text = viewModel.finalResult.toString()
             }
         }
     }

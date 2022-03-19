@@ -7,9 +7,13 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.MainActivity.Companion.TAG
 
 class ViewModel : ViewModel() {
-     var finalResult:Int = 0
+    var finalResult: Int = 0
+
     private val _userInputFirstNumber: MutableLiveData<String> = MutableLiveData("")
     val userInputFirstNumber: LiveData<String> = _userInputFirstNumber
+
+    private val _oprerations: MutableLiveData<String> = MutableLiveData("")
+    val operations: LiveData<String> = _oprerations
 
     private var _result: MutableLiveData<String> = MutableLiveData("")
     val result: LiveData<String> = _result
@@ -31,11 +35,20 @@ class ViewModel : ViewModel() {
         finalResult = getString[0].toInt() + getString[1].toInt()
         return finalResult.toString()
     }
-    fun mines(result: String): String {
+
+    fun choseOperations(operation: String){
+        _oprerations.value = operation
+        Log.d(TAG, _oprerations.value.toString())
+    }
+    fun operations(result: String) {
         _result.value = result
         val getString = _result.value!!.split("+")
-        finalResult = getString[0].toInt() - getString[1].toInt()
-        return finalResult.toString()
+        val getString1 = _result.value!!.split("-")
+        when(_oprerations.value){
+            "+" -> finalResult = getString[0].toInt() + getString[1].toInt()
+
+            "-" -> finalResult = getString1[0].toInt() - getString1[1].toInt()
+        }
     }
 
 
