@@ -1,15 +1,14 @@
 package com.example.myapplication
 
 
-import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.example.myapplication.databinding.ActivityMainBinding
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -25,10 +24,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initObserves()
+
         binding.btnNumberFive.setOnClickListener(this)
         binding.btnNumberTwo.setOnClickListener(this)
         binding.btnPlus.setOnClickListener(this)
         binding.btnEquals.setOnClickListener(this)
+
     }
 
     private fun updateText(text: String) {
@@ -36,19 +37,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initObserves() {
-        viewModel.userString.observe(this@MainActivity) {
+        viewModel.userInputFirstNumber.observe(this, androidx.lifecycle.Observer {
             updateText(it)
-            Log.d(TAG, "${viewModel.userString}")
-        }
+            Log.d(TAG, it)
+        })
+
     }
+
     override fun onClick(view: View?) {
+
         // стало
         when (view!!.id) {
             R.id.btnNumberTwo -> viewModel.updateText("2")
-            R.id.btnNumberFive ->  viewModel.updateText("5")
+            R.id.btnNumberFive -> viewModel.updateText("5")
             R.id.btnPlus -> viewModel.updateText("+")
-            R.id.btnEquals -> binding.editTextTextPersonName.setText("${viewModel.pop().toString()}")
+            R.id.btnEquals -> {
+                viewModel.update(binding.editTextTextPersonName.text.toString())
+                binding.editTextTextPersonName.text = viewModel.finalResult.toString().toEditable()
+            }
         }
     }
-
+    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 }
+
+
+
