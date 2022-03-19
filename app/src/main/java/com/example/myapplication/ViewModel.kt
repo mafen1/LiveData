@@ -25,11 +25,18 @@ class ViewModel : ViewModel() {
         Log.d(TAG, ii)
     }
 
-    fun update(result: String): String {
+    fun plus(result: String): String {
         _result.value = result
         val getString = _result.value!!.split("+")
         finalResult = getString[0].toInt() + getString[1].toInt()
         return finalResult.toString()
     }
+    fun mines(result: String): String {
+        _result.value = result
+        val getString = _result.value!!.split("+")
+        finalResult = getString[0].toInt() - getString[1].toInt()
+        return finalResult.toString()
+    }
+
 
 }

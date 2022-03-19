@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnNumberFive -> viewModel.updateText("5")
             R.id.btnPlus -> viewModel.updateText("+")
             R.id.btnEquals -> {
-                viewModel.update(binding.editTextTextPersonName.text.toString())
+                viewModel.plus(binding.editTextTextPersonName.text.toString())
                 binding.editTextTextPersonName.text = viewModel.finalResult.toString().toEditable()
             }
         }
