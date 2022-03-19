@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 }
 
 
