@@ -8,6 +8,7 @@ import com.example.myapplication.MainActivity.Companion.TAG
 
 class ViewModel : ViewModel() {
     var finalResult: Int = 0
+    var operationInViewModel = ""
 
     private val _userInputFirstNumber: MutableLiveData<String> = MutableLiveData("")
     val userInputFirstNumber: LiveData<String> = _userInputFirstNumber
@@ -36,18 +37,18 @@ class ViewModel : ViewModel() {
         return finalResult.toString()
     }
 
-    fun choseOperations(operation: String){
+    fun choseOperations(operation: String): String{
         _oprerations.value = operation
-        Log.d(TAG, _oprerations.value.toString())
+        operationInViewModel = operation
+        return _oprerations.value.toString()
     }
     fun operations(result: String) {
         _result.value = result
-        val getString = _result.value!!.split("+")
-        val getString1 = _result.value!!.split("-")
+        val getString = _result.value!!.split(operationInViewModel)
         when(_oprerations.value){
             "+" -> finalResult = getString[0].toInt() + getString[1].toInt()
 
-            "-" -> finalResult = getString1[0].toInt() - getString1[1].toInt()
+            "-" -> finalResult = getString[0].toInt() - getString[1].toInt()
         }
     }
 
