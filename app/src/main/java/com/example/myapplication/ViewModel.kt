@@ -14,28 +14,16 @@ class ViewModel : ViewModel() {
     val userInputFirstNumber: LiveData<String> = _userInputFirstNumber
 
     private val _oprerations: MutableLiveData<String> = MutableLiveData("")
-    val operations: LiveData<String> = _oprerations
+
 
     private var _result: MutableLiveData<String> = MutableLiveData("")
-    val result: LiveData<String> = _result
+
 
 
     fun updateText(string: String) {
         _userInputFirstNumber.postValue(string)
-//        Log.d(TAG, "${_userString.value}")
     }
 
-    fun pop() {
-        val ii = userInputFirstNumber.value.toString()
-        Log.d(TAG, ii)
-    }
-
-    fun plus(result: String): String {
-        _result.value = result
-        val getString = _result.value!!.split("+")
-        finalResult = getString[0].toInt() + getString[1].toInt()
-        return finalResult.toString()
-    }
 
     fun choseOperations(operation: String): String{
         _oprerations.value = operation
