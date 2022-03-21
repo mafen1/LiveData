@@ -1,68 +1,61 @@
 package com.example.myapplication
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.myapplication.databinding.ActivityMainBinding
-import java.util.*
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
     private val viewModel: ViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        val TAG = "TAG"
+        const val TAG = "TAG"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initObserves()
 
-        binding.btnNumberFive.setOnClickListener(this)
-        binding.btnNumberTwo.setOnClickListener(this)
-        binding.btnPlus.setOnClickListener(this)
-        binding.btnEquals.setOnClickListener(this)
-        binding.btnMinus.setOnClickListener(this)
+        viewModel.view = binding.root
+        initObserves()
+        initButton()
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateText(text: String) {
         binding.editTextTextPersonName.setText("${binding.editTextTextPersonName.text}$text")
     }
 
     private fun initObserves() {
-        viewModel.userInputFirstNumber.observe(this, androidx.lifecycle.Observer {
+        viewModel.userInputFirstNumber.observe(this, Observer {
             updateText(it)
-            Log.d(TAG, it)
         })
 
     }
 
-    override fun onClick(view: View?) {
-
-        // стало
-        when (view!!.id) {
-            R.id.btnNumberTwo -> viewModel.updateText("2")
-            R.id.btnNumberFive -> viewModel.updateText("5")
-            R.id.btnPlus ->{
-                viewModel.choseOperations("+")
-                viewModel.updateText("+")
-            }
-            R.id.btnMinus -> {
-                viewModel.choseOperations("-")
-                viewModel.updateText("-")
-            }
-            R.id.btnEquals -> {
-                viewModel.operations(binding.editTextTextPersonName.text.toString())
-                binding.tvResult.text = viewModel.finalResult.toString()
-            }
+    private fun initButton() {
+        binding.btnNumberFive.setOnClickListener {
+            viewModel.updateText("5")
+        }
+        binding.btnNumberTwo.setOnClickListener {
+            viewModel.updateText("2")
+        }
+        binding.btnPlus.setOnClickListener {
+          viewModel.printOperation( "+")
+        }
+        binding.btnMinus.setOnClickListener {
+          viewModel.printOperation( "-")
+        }
+        binding.btnEquals.setOnClickListener {
+            viewModel.operations(binding.editTextTextPersonName.text.toString())
+            binding.tvResult.text = viewModel.finalResult.toString()
         }
     }
 }
